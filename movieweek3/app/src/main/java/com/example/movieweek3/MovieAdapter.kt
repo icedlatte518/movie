@@ -7,13 +7,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 data class Movie(
     val title: String,
     val popularity: Double,
-    val description: String,
-    val openDate: String,
-    val posterUrl: Int
+    val overview: String,
+    val release_date: String,
+    val poster_path: String
+)
+data class MovieList(
+    val results: ArrayList<Movie>
 )
 
 class MovieAdapter (val context: Context, val movieList: ArrayList<Movie>): RecyclerView.Adapter<MovieAdapter.Holder>(){
@@ -39,11 +43,11 @@ class MovieAdapter (val context: Context, val movieList: ArrayList<Movie>): Recy
         val container = itemView.findViewById<ConstraintLayout>(R.id.container)
 
         fun bind(movie: Movie){
-            imgPoster.setImageResource(movie.posterUrl)
+            Glide.with(context).load("https://image.tmdb.org/t/p/w500"+movie.poster_path).into(imgPoster)
             tvTitle.text = movie.title
             tvPopularity.text = "인기도: "+ movie.popularity
-            tvDescription.text = "설명: "+ movie.description
-            tvOpenDate.text = "개봉일: "+ movie.openDate
+            tvDescription.text = "설명: "+ movie.overview
+            tvOpenDate.text = "개봉일: "+ movie.release_date
 
             container.setOnClickListener {
                 Toast.makeText(context,movie.title, Toast.LENGTH_SHORT).show() 
